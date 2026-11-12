@@ -34,7 +34,7 @@ li::marker{color:var(--muted)}
 :root{color-scheme:dark;--control-border:#3D424B}
 :root[data-theme="light"]{color-scheme:light;--target-color:#000000;--strength-color:#F87C56;--surround:#EBEBED;--paper:#FFFFFF;--text:#25282F;--heading:#16191F;--muted:#626772;--section:#16191F;--accent-text:#AF4324;--subheading:#4B5059;--panel:#FFF3EE;--note:#7B6259;--control-border:#D3D5DA}
 .toolbar{width:210mm;max-width:100%;margin:16px auto 0;display:flex;justify-content:flex-end;padding:0 12px}
-.theme-toggle{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:44px;padding:10px 16px;border:1px solid var(--control-border);border-radius:999px;background:var(--paper);color:var(--text);font-family:inherit;font-size:13px;font-weight:600;line-height:1.4;cursor:pointer;-webkit-tap-highlight-color:transparent}
+.theme-toggle{display:inline-flex;align-items:center;justify-content:center;width:44px;height:44px;padding:0;border:1px solid var(--control-border);border-radius:999px;background:var(--paper);color:var(--text);font-family:inherit;font-size:13px;font-weight:600;line-height:1.4;cursor:pointer;-webkit-tap-highlight-color:transparent}
 .theme-toggle[hidden]{display:none}
 .theme-toggle:hover{background:var(--panel)}
 .theme-toggle:focus-visible{outline:3px solid var(--accent-text);outline-offset:4px}
@@ -82,7 +82,7 @@ li::marker{color:var(--muted)}
 </style></head><body><div class="toolbar"><button class="theme-toggle" type="button" hidden aria-label="开灯，切换到白底模式">
 <svg class="sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M2 12h2m16 0h2M5 5l1.4 1.4m11.2 11.2L19 19M5 19l1.4-1.4M17.6 6.4 19 5"/></svg>
 <svg class="moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.5 14A8.5 8.5 0 0 1 10 3.5 8.5 8.5 0 1 0 20.5 14Z"/></svg>
-<span class="theme-label">开灯</span></button></div><main class="page">
+</button></div><main class="page">
 <header><div><h1>蒙兆仪</h1><div class="target">求职方向：运动 AI 产品经理</div></div><div class="contact">17765138344<br><a href="mailto:zymeng0819@gmail.com">zymeng0819@gmail.com</a></div></header>
 <section><h2>个人优势</h2><div class="strengths"><strong>长期运动实践 · ACSM-CPT 认证 · 运动 AI 项目实践</strong><br>需求洞察与产品定义 · 跨团队项目推进 · 产品／设计／研发复合能力</div></section>
 <section><h2>工作经历</h2>
@@ -134,10 +134,8 @@ li::marker{color:var(--muted)}
 (() => {
   const root = document.documentElement;
   const button = document.querySelector('.theme-toggle');
-  const label = button.querySelector('.theme-label');
   function render() {
     const light = root.dataset.theme === 'light';
-    label.textContent = light ? '关灯' : '开灯';
     button.setAttribute('aria-label', light ? '关灯，切换到深色模式' : '开灯，切换到白底模式');
   }
   render();
