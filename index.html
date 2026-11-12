@@ -1,5 +1,13 @@
 <!doctype html>
-<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>蒙兆仪｜运动 AI 产品经理 · 深色版</title>
+<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>蒙兆仪｜运动 AI 产品经理</title>
+<script>
+// Apply the saved choice before painting; the original dark theme is the default.
+try {
+  if (localStorage.getItem('resume-theme') === 'light') {
+    document.documentElement.dataset.theme = 'light';
+  }
+} catch (_) {}
+</script>
 <style>
 @page{size:A4;margin:0}*{box-sizing:border-box}body{margin:0;background:#e8edf1;color:#22303a;font-family:"Microsoft YaHei","Noto Sans CJK SC",sans-serif;font-size:11.5px;line-height:1.48}.page{width:210mm;min-height:297mm;margin:24px auto;background:white;padding:10mm 12mm 9mm;box-shadow:0 4px 28px #24384820}header{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}h1{font-size:29px;letter-spacing:3px;color:#132e3b;margin:0} .target{font-size:14px;font-weight:600;margin-top:2px}.contact{text-align:right;font-size:11px;line-height:1.8;color:#50606b}a{color:inherit;text-decoration:none}h2{color:#12636b;font-size:13px;margin:10px 0 5px;font-weight:700;letter-spacing:1.3px}h3{font-size:12.3px;margin:6px 0 3px;color:#152f3d}.job{display:flex;align-items:baseline;justify-content:space-between;gap:10px}.date{font-size:10.5px;white-space:nowrap;color:#64727b}.subhead{font-weight:700;font-size:11.5px;margin:4px 0 2px;color:#4a606c}p{margin:2px 0}ul{margin:2px 0 5px;padding-left:15px}li{padding-left:0;margin:2px 0}strong{font-weight:700}.strengths{background:#eff6f6;padding:6px 10px;line-height:1.65;font-size:11.6px}.todo{color:#9b692d;font-size:10.6px}.bottom{display:grid;grid-template-columns:1fr 1.13fr;gap:24px;margin-top:1px}.timeline p{margin:1px 0}.year{display:inline-block;width:36px;color:#12636b;font-weight:700}.edu p{margin:2px 0}.edu .school{font-weight:700;font-size:12px}.edu-item{margin-bottom:10px}.skills{font-size:10.8px;line-height:1.55;margin-top:5px}.skills h2{margin-top:5px}.project{break-inside:avoid} .skillline{margin-top:1px}@media print{body{background:white}.page{margin:0;box-shadow:none;min-height:297mm}}@media screen and (max-width:800px){.page{margin:0}}
 :root{--target-color:#FFFFFF;--strength-color:#FFFFFF;--surround:#080A0E;--paper:#0E1116;--text:#E4E6EA;--heading:#FFFFFF;--muted:#B0B5BD;--section:#F87C56;--accent-text:#F87C56;--subheading:#CDD1D7;--panel:#1E2228;--note:#C4A89C;}
@@ -21,7 +29,60 @@ h2::before{content:"";display:inline-block;width:3px;height:12px;background:#F87
 .todo{color:var(--note)}
 li::marker{color:var(--muted)}
 @media print{html,body{background:var(--paper)}.page{box-shadow:none}}
-</style></head><body><main class="page">
+
+/* Theme controls sit outside the resume so the document content stays intact. */
+:root{color-scheme:dark;--control-border:#3D424B}
+:root[data-theme="light"]{color-scheme:light;--target-color:#000000;--strength-color:#F87C56;--surround:#EBEBED;--paper:#FFFFFF;--text:#25282F;--heading:#16191F;--muted:#626772;--section:#16191F;--accent-text:#AF4324;--subheading:#4B5059;--panel:#FFF3EE;--note:#7B6259;--control-border:#D3D5DA}
+.toolbar{width:210mm;max-width:100%;margin:16px auto 0;display:flex;justify-content:flex-end;padding:0 12px}
+.theme-toggle{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:44px;padding:10px 16px;border:1px solid var(--control-border);border-radius:999px;background:var(--paper);color:var(--text);font-family:inherit;font-size:13px;font-weight:600;line-height:1.4;cursor:pointer;-webkit-tap-highlight-color:transparent}
+.theme-toggle[hidden]{display:none}
+.theme-toggle:hover{background:var(--panel)}
+.theme-toggle:focus-visible{outline:3px solid var(--accent-text);outline-offset:4px}
+.theme-toggle svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+.theme-toggle .moon{display:none}
+[data-theme="light"] .theme-toggle .sun{display:none}
+[data-theme="light"] .theme-toggle .moon{display:block}
+@media screen{
+  .page{max-width:100%;margin-top:12px}
+}
+@media screen and (max-width:800px){
+  body{font-size:15px;line-height:1.75}
+  .toolbar{padding:0 20px;margin:12px auto}
+  .page{width:100%;min-height:0;margin:0;padding:28px 24px 40px;box-shadow:none;overflow-wrap:anywhere}
+  header{align-items:flex-start;flex-wrap:wrap;gap:16px;margin-bottom:24px}
+  h1{font-size:30px}
+  .target{font-size:16px;margin-top:6px}
+  .contact{font-size:14px;text-align:left;line-height:1.8}
+  h2{font-size:18px;margin:28px 0 12px;gap:9px}
+  h2::before{height:16px}
+  h3{font-size:16px;margin:0}
+  .job{flex-wrap:wrap;gap:4px 12px;margin:20px 0 8px}
+  .job h3{flex:1 1 320px;min-width:0}
+  .date{font-size:13px}
+  .subhead{font-size:15px;margin:16px 0 8px}
+  .strengths{font-size:15px;line-height:1.8}
+  ul{padding-left:20px;margin:8px 0 20px}
+  li{margin:10px 0}
+  p{margin:6px 0}
+  .bottom{grid-template-columns:minmax(0,1fr);gap:0}
+  .edu .school{font-size:16px}
+  .edu-item{margin-bottom:20px}
+  .timeline p{margin:8px 0}
+  .year{width:42px}
+  .skills{font-size:14px;line-height:1.8;margin-top:24px}
+  .skillline{margin-top:8px}
+}
+@media screen and (max-width:420px){
+  .page{padding:24px 20px 36px}
+  header{flex-direction:column}
+  .job{flex-direction:column;align-items:flex-start}
+  .job h3{flex:auto}
+}
+@media print{.toolbar{display:none}}
+</style></head><body><div class="toolbar"><button class="theme-toggle" type="button" hidden aria-label="开灯，切换到白底模式">
+<svg class="sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M2 12h2m16 0h2M5 5l1.4 1.4m11.2 11.2L19 19M5 19l1.4-1.4M17.6 6.4 19 5"/></svg>
+<svg class="moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.5 14A8.5 8.5 0 0 1 10 3.5 8.5 8.5 0 1 0 20.5 14Z"/></svg>
+<span class="theme-label">开灯</span></button></div><main class="page">
 <header><div><h1>蒙兆仪</h1><div class="target">求职方向：运动 AI 产品经理</div></div><div class="contact">17765138344<br><a href="mailto:zymeng0819@gmail.com">zymeng0819@gmail.com</a></div></header>
 <section><h2>个人优势</h2><div class="strengths"><strong>长期运动实践 · ACSM-CPT 认证 · 运动 AI 项目实践</strong><br>需求洞察与产品定义 · 跨团队项目推进 · 产品／设计／研发复合能力</div></section>
 <section><h2>工作经历</h2>
@@ -69,4 +130,23 @@ li::marker{color:var(--muted)}
 <p><span class="year">26年</span>康复，继续追求健康与运动表现</p>
 </section></div>
 <section class="skills"><h2>专业技能</h2><p class="skillline"><strong>产品设计与 AI 辅助开发：</strong>Figma、Vibe Coding　<strong>前端与移动端：</strong>HTML、CSS、JavaScript、Liquid、React Native</p><p class="skillline"><strong>数据与自动化：</strong>Python、SQL、Selenium、Power BI</p></section>
-</main></body></html>
+</main><script>
+(() => {
+  const root = document.documentElement;
+  const button = document.querySelector('.theme-toggle');
+  const label = button.querySelector('.theme-label');
+  function render() {
+    const light = root.dataset.theme === 'light';
+    label.textContent = light ? '关灯' : '开灯';
+    button.setAttribute('aria-label', light ? '关灯，切换到深色模式' : '开灯，切换到白底模式');
+  }
+  render();
+  button.hidden = false;
+  button.addEventListener('click', () => {
+    const theme = root.dataset.theme === 'light' ? 'dark' : 'light';
+    root.dataset.theme = theme;
+    try { localStorage.setItem('resume-theme', theme); } catch (_) {}
+    render();
+  });
+})();
+</script></body></html>
