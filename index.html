@@ -37,7 +37,14 @@ li::marker{color:var(--muted)}
 /* Theme controls sit outside the resume so the document content stays intact. */
 :root{color-scheme:dark;--control-border:#3D424B}
 :root[data-theme="light"]{color-scheme:light;--target-color:#000000;--strength-color:#F87C56;--surround:#EBEBED;--paper:#FFFFFF;--text:#25282F;--heading:#16191F;--muted:#626772;--section:#16191F;--accent-text:#AF4324;--subheading:#4B5059;--panel:#FFF3EE;--note:#7B6259;--control-border:#D3D5DA}
-.toolbar{width:210mm;max-width:100%;margin:16px auto 0;display:flex;justify-content:flex-end;padding:0 12px}
+.toolbar{width:210mm;max-width:100%;margin:16px auto 0;display:flex;align-items:center;justify-content:flex-end;gap:12px;padding:0 12px;flex-wrap:wrap}
+.export-pdf{min-height:44px;padding:0 16px;border:1px solid var(--control-border);border-radius:22px;background:var(--paper);color:var(--text);font-family:inherit;font-size:13px;font-weight:600;cursor:pointer}
+.export-pdf:hover{background:var(--panel)}
+.export-pdf:focus-visible{outline:3px solid var(--accent-text);outline-offset:4px}
+.export-pdf:disabled{opacity:.65;cursor:wait}
+.export-status{flex-basis:100%;text-align:right;font-size:13px;color:var(--muted)}
+.export-status:empty{display:none}
+.export-frame{position:fixed;left:-10000px;top:0;width:1000px;height:1400px;border:0;pointer-events:none}
 .theme-toggle{display:inline-flex;align-items:center;justify-content:center;width:44px;height:44px;padding:0;border:1px solid var(--control-border);border-radius:999px;background:var(--paper);color:var(--text);font-family:inherit;font-size:13px;font-weight:600;line-height:1.4;cursor:pointer;-webkit-tap-highlight-color:transparent}
 .theme-toggle[hidden]{display:none}
 .theme-toggle:hover{background:var(--panel)}
@@ -83,10 +90,10 @@ li::marker{color:var(--muted)}
   .job h3{flex:auto}
 }
 @media print{.toolbar{display:none}}
-</style></head><body><div class="toolbar"><button class="theme-toggle" type="button" hidden aria-label="开灯，切换到白底模式">
+</style></head><body><div class="toolbar"><button class="export-pdf" type="button" hidden>导出 PDF</button><button class="theme-toggle" type="button" hidden aria-label="开灯，切换到白底模式">
 <svg class="sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M2 12h2m16 0h2M5 5l1.4 1.4m11.2 11.2L19 19M5 19l1.4-1.4M17.6 6.4 19 5"/></svg>
 <svg class="moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.5 14A8.5 8.5 0 0 1 10 3.5 8.5 8.5 0 1 0 20.5 14Z"/></svg>
-</button></div><main class="page">
+</button><span class="export-status" role="status" aria-live="polite"></span></div><main class="page">
 <header><div><h1>蒙兆仪</h1><div class="target">求职方向：运动 AI 产品经理</div></div><div class="contact">17765138344<br><a href="mailto:zymeng0819@gmail.com">zymeng0819@gmail.com</a></div></header>
 <section><h2>个人优势</h2><div class="strengths"><strong>长期运动实践 · ACSM-CPT 认证 · 运动 AI 项目实践</strong><br>需求洞察与产品定义 · 跨团队项目推进 · 产品／设计／研发复合能力</div></section>
 <section><h2>工作经历</h2>
@@ -130,6 +137,7 @@ li::marker{color:var(--muted)}
 <p><span class="year">20年</span>接触到运动康复</p>
 <p><span class="year">21年</span>打进院队首发</p>
 <p><span class="year">23年</span>遭遇腰椎间盘突出，腰五骶1</p>
+<p><span class="year">24年</span>通过潜水 OW、AIDA 2 认证</p>
 <p><span class="year">25年</span>考取ACSM-CPT私人教练认证</p>
 <p><span class="year">26年</span>康复，继续追求健康与运动表现</p>
 </section></div>
@@ -149,6 +157,97 @@ li::marker{color:var(--muted)}
     root.dataset.theme = theme;
     try { localStorage.setItem('resume-theme', theme); } catch (_) {}
     render();
+  });
+})();
+</script><script>
+(() => {
+  const button = document.querySelector('.export-pdf');
+  const status = document.querySelector('.export-status');
+  button.hidden = false;
+  button.addEventListener('click', async () => {
+    if (button.disabled) return;
+    button.disabled = true;
+    button.textContent = '正在导出…';
+    status.textContent = '';
+    let frame;
+    try {
+      const page = document.querySelector('.page');
+      const name = page.querySelector('h1').textContent.trim();
+      const role = page.querySelector('.target').textContent.replace(/^求职方向[：:]\s*/, '').trim();
+      const now = new Date();
+      const pad = value => String(value).padStart(2, '0');
+      const time = `${now.getFullYear()}-${pad(now.getMonth() + 1)}-${pad(now.getDate())}_${pad(now.getHours())}-${pad(now.getMinutes())}-${pad(now.getSeconds())}`;
+      const filename = `${name}_${role}_简历_${time}.pdf`.replace(/[\\/:*?"<>|\x00-\x1f]/g, '_');
+
+      // A separate desktop viewport keeps mobile exports consistent without
+      // changing the visible page, theme preference, or scroll position.
+      frame = document.createElement('iframe');
+      frame.className = 'export-frame';
+      frame.setAttribute('aria-hidden', 'true');
+      frame.tabIndex = -1;
+      const ready = new Promise(resolve => { frame.onload = resolve; });
+      const theme = document.documentElement.dataset.theme === 'light' ? 'light' : 'dark';
+      frame.srcdoc = `<!doctype html><html lang="zh-CN" data-theme="${theme}"><head><meta charset="utf-8"><style>${document.querySelector('style').textContent}\n.page{margin:0;min-height:0;box-shadow:none}</style></head><body>${page.outerHTML}</body></html>`;
+      document.body.appendChild(frame);
+      await ready;
+      const doc = frame.contentDocument;
+      await new Promise((resolve, reject) => {
+        const script = doc.createElement('script');
+        const timer = setTimeout(() => reject(new Error('PDF library timeout')), 30000);
+        script.onload = () => { clearTimeout(timer); resolve(); };
+        script.onerror = () => { clearTimeout(timer); reject(new Error('PDF library unavailable')); };
+        script.src = new URL('vendor/html2pdf.bundle.min.js', document.baseURI).href;
+        doc.head.appendChild(script);
+      });
+      await doc.fonts.ready;
+      const exportPage = doc.querySelector('.page');
+      const worker = frame.contentWindow.html2pdf().set({
+        filename,
+        margin: 0,
+        image: { type: 'jpeg', quality: 0.98 },
+        html2canvas: { scale: 2, windowWidth: 1000, scrollX: 0, scrollY: 0, logging: false },
+        jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
+        pagebreak: { mode: [] },
+        enableLinks: false
+      }).from(exportPage).toCanvas().toPdf();
+      const canvas = await worker.get('canvas');
+      const pdf = await worker.get('pdf');
+      // Fit the complete resume onto one A4 sheet, including on mobile.
+      while (pdf.getNumberOfPages() > 1) pdf.deletePage(pdf.getNumberOfPages());
+      const scale = Math.min(210 / canvas.width, 297 / canvas.height);
+      const width = canvas.width * scale;
+      const height = canvas.height * scale;
+      const x = (210 - width) / 2;
+      pdf.setFillColor(theme === 'light' ? '#FFFFFF' : '#0E1116');
+      pdf.rect(0, 0, 210, 297, 'F');
+      pdf.addImage(canvas.toDataURL('image/jpeg', 0.98), 'JPEG', x, 0, width, height);
+      const bounds = exportPage.getBoundingClientRect();
+      const unit = width / bounds.width;
+      for (const link of exportPage.querySelectorAll('a[href]')) {
+        for (const rect of link.getClientRects()) {
+          pdf.link(x + (rect.left - bounds.left) * unit, (rect.top - bounds.top) * unit,
+            rect.width * unit, rect.height * unit, { url: link.href });
+        }
+      }
+      // Download from the visible document so removing the temporary frame
+      // cannot cancel a download scheduled by the PDF library.
+      const url = URL.createObjectURL(pdf.output('blob'));
+      const download = document.createElement('a');
+      download.href = url;
+      download.download = filename;
+      document.body.appendChild(download);
+      download.click();
+      download.remove();
+      setTimeout(() => URL.revokeObjectURL(url), 60000);
+      status.textContent = 'PDF 已生成';
+    } catch (error) {
+      console.error('PDF export failed:', error);
+      status.textContent = '导出失败，请重试。也可使用浏览器的“打印 → 另存为 PDF”。';
+    } finally {
+      if (frame) frame.remove();
+      button.disabled = false;
+      button.textContent = '导出 PDF';
+    }
   });
 })();
 </script></body></html>
