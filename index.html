@@ -90,6 +90,25 @@ li::marker{color:var(--muted)}
   .job h3{flex:auto}
 }
 @media print{.toolbar{display:none}}
+</style>
+<!-- Screen reading styles stay separate: the PDF copies only the base style above. -->
+<style media="screen" id="reading-style">
+@media (min-width:801px){
+  .page{zoom:1.25;width:calc((100vw - 32px) / 1.25);max-width:210mm;min-height:0;overflow-wrap:anywhere}
+  .toolbar{width:calc(210mm * 1.25);max-width:calc(100% - 32px)}
+  header{flex-wrap:wrap;gap:12px}
+  .job{flex-wrap:wrap;gap:4px 10px}
+  .job h3{min-width:0}
+}
+@media (min-width:801px) and (max-width:1040px){
+  .page{padding:8mm}
+  .bottom{grid-template-columns:minmax(0,1fr);gap:8px}
+}
+@media (max-width:800px){
+  body{font-size:16px}
+  .strengths,.subhead{font-size:16px}
+  .skills{font-size:15px}
+}
 </style></head><body><div class="toolbar"><button class="export-pdf" type="button" hidden>导出 PDF</button><button class="theme-toggle" type="button" hidden aria-label="开灯，切换到白底模式">
 <svg class="sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M2 12h2m16 0h2M5 5l1.4 1.4m11.2 11.2L19 19M5 19l1.4-1.4M17.6 6.4 19 5"/></svg>
 <svg class="moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.5 14A8.5 8.5 0 0 1 10 3.5 8.5 8.5 0 1 0 20.5 14Z"/></svg>
