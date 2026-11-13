@@ -30,6 +30,10 @@ h2::before{content:"";display:inline-block;width:3px;height:12px;background:#F87
 li::marker{color:var(--muted)}
 @media print{html,body{background:var(--paper)}.page{box-shadow:none}}
 
+.project-link{display:inline-block;margin-left:.6em;color:var(--accent-text);text-decoration:underline;text-underline-offset:3px;text-decoration-thickness:1px;font-weight:600;white-space:nowrap}
+.project-link:hover{text-decoration-thickness:2px}
+.project-link:focus-visible{outline:2px solid var(--accent-text);outline-offset:4px}
+
 /* Theme controls sit outside the resume so the document content stays intact. */
 :root{color-scheme:dark;--control-border:#3D424B}
 :root[data-theme="light"]{color-scheme:light;--target-color:#000000;--strength-color:#F87C56;--surround:#EBEBED;--paper:#FFFFFF;--text:#25282F;--heading:#16191F;--muted:#626772;--section:#16191F;--accent-text:#AF4324;--subheading:#4B5059;--panel:#FFF3EE;--note:#7B6259;--control-border:#D3D5DA}
@@ -105,7 +109,7 @@ li::marker{color:var(--muted)}
 <li><strong>分阶段支付：</strong>面向高客单价定制订单，负责分阶段支付的产品定义与上线推进；上线后该方式承载订单的客单价为普通订单的 <strong>7.7 倍</strong>。</li>
 </ul></section>
 <section><h2>个人项目</h2>
-<div class="project"><div class="job"><h3>投篮动作分析</h3></div>
+<div class="project"><div class="job"><h3>投篮动作分析 <a class="project-link" href="https://shot.jori.dev/" target="_blank" rel="noopener noreferrer">shot.jori.dev</a></h3></div>
 <p>围绕投篮动作的效率、长期可持续性与个体差异开展产品探索，研究动作模式与投篮表现的关系；从 0 到 1 推进视频动作分析 MVP 并上线内测，持续建设多样化投篮参考库。</p>
 <ul>
 <li><strong>运动问题建模：</strong>围绕发力协同与出手时序提出分析假设，将动作拆解为关节角度变化、伸展时序及出手状态等指标；定义“最后一次沉重心至出手”为核心分析区间，建立包含 6 类关键事件、22 项动作特征的描述体系。</li>
